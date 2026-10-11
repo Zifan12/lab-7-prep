@@ -1,7 +1,20 @@
-Hash table:
+Hash table: 
+Memory: Stores only existing (entity, component) pairs, plus per-node/bucket overhead. So memory is low if few pairs exist.
+Speed: O(1) avg look up.
+Maintenance: relatively easy, just add or remove an entity by inserting or erasing a key.
 
 Map:
+Memory: Stores only existing pairs, plus tree node overhead 
+Speed: O(log n) look up, slower than the hash table, with scattered nodes, keys stay sorted
+Maintenance: very easy, just insert or erase a key
 
-Sparse mapping 1:
+Sparse mapping 1: ([N][K], vector of arrays)
+Memory: always N * K int32 slots, regardless of how many components exist
+Speed: O(1) direct index 
+Maintenance: adding an entity appends one row; removing leaves holes because erasing a row shifts later entity IDs.
 
-Sparse mapping 2:
+Sparse mapping 2: ([K][N], array of vectors)
+Memory: also N * K int32 slots, the same as mapping 1.
+Speed: O(1) direct index,  scanning one component type across all entities is contiguous
+Maintenance: adding an entity appends to each of the K vectors
+
